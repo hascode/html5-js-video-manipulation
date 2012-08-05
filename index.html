@@ -57,7 +57,7 @@ div {
     		
     		canvas2DContext.drawImage(video,0,0);
     		var data = canvas2DContext.getImageData(0,0,canvas.width, canvas.height); 
-    		JSManipulate.triangleripple.filter(data, {refraction: 3.0, radius: 75});
+    		JSManipulate.triangleripple.filter(data, {});
     		canvas2DContext.putImageData(data,0,0);
     		
     		setTimeout(function(){
