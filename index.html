@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>hasCode.com HTML Canvas Video Manipulation Example</title>
+<script type="text/javascript" src="jsmanipulate.js"></script>
+<style type="text/css">
+h1 {
+	border-bottom: 6px solid #000
+}
+
+body {
+	font-family: Monospace, sans-serif;
+}
+video {
+	border:1px solid #000;
+	width:400px;
+}
+canvas {
+	border:1px solid #000;
+	height:347px;
+	width:400px;
+}
+div {
+	font-size:13px;
+	padding:10px 0px;
+}
+</style>
+</head>
+<body>
+	<h1>hasCode.com: Applying effects to HTML 5 Videos using JavaScript</h1>
+	<div>Please run using Chrome .. I was too lazy to add other video formats here. .. the image effect are made with JSManipulate by <a href="https://github.com/JoelBesada/JSManipulate">Joel Besada</a>.</div>
+	<div>I've used the screencast from my Liferay-Portlet tutorial here - if you're interested in the tutorial please feel free to take a look at <a href="http://www.hascode.com/2011/07/creating-portlets-with-java-server-faces-2-and-liferay/">this article of mine</a>.</div>
+	<div>For the full tutorial, please visit my blog at <a href="http://www.hascode.com/">www.hascode.com</a> - the full sources are available at <a href="https://bitbucket.org/hascode/html5-js-video-manipulation/">Bitbucket</a>.</div>
+	<video controls id="video">
+		<source src="video.mp4" type="video/mp4" />
+	</video>
+	<canvas id="canvas"></canvas>
+	<hr/>
+	<div>2012 Micha Kops / <a href="http://www.hascode.com/">www.hascode.com</a></div>
+
+	<script type="text/javascript">
+    	function setup(){
+    		var video = document.getElementById("video");
+    		var canvas = document.getElementById("canvas");
+    		
+    		var canvas2DContext = canvas.getContext("2d");
+    		
+    		video.addEventListener("play", function(){
+    			canvas.height = video.clientHeight;
+    			canvas.width = video.clientWidth;
+    			paintCanvas(video, canvas, canvas2DContext);
+    		}, false);
+    	}
+    	
+    	function paintCanvas(video, canvas, canvas2DContext){
+    		if(video.paused || video.ended) return false;
+    		
+    		canvas2DContext.drawImage(video,0,0);
+    		var data = canvas2DContext.getImageData(0,0,canvas.width, canvas.height); 
+    		JSManipulate.triangleripple.filter(data, {refraction: 3.0, radius: 75});
+    		canvas2DContext.putImageData(data,0,0);
+    		
+    		setTimeout(function(){
+    			paintCanvas(video,canvas,canvas2DContext);
+    		}, 20);
+    	}
+    	
+    	setup();
+    </script>
+</body>
+</html>
